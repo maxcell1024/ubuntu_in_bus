@@ -31,7 +31,6 @@ import os
 
 if __name__ == '__main__':
     # カメラのID決定
-    # ids = []
     for id in range(0,10):
         capid=cv2.VideoCapture(id, cv2.CAP_DSHOW)
         if capid.isOpened():
@@ -40,18 +39,15 @@ if __name__ == '__main__':
                 ther_cid=id
             elif capid.get(cv2.CAP_PROP_FRAME_HEIGHT)==360:
                 rgb_cid=id
-            # ids.append(id)
             # print(f'Video capture{id}:found')
         else:
             print(f'Video capture{id}:None')
         capid.release()
 
-    # ther_cid, rgb_cid = ids[3],ids[2]
     print(f'after get ids, rgb_cid: {rgb_cid}, ther_cid: {ther_cid}')
-    # sleep(60)
-    ther_camera = cv2.VideoCapture(ther_cid-1)
+    sleep(60)
+    ther_camera = cv2.VideoCapture(ther_cid)
     rgb_camera = cv2.VideoCapture(rgb_cid,cv2.CAP_DSHOW)
-    # rgb_camera = cv2.VideoCapture(rgb_cid,cv2.CAP_DSHOW)
 
     # output_dir
     dir_name=datetime.datetime.now().strftime('%Y%m%d')
@@ -61,8 +57,6 @@ if __name__ == '__main__':
 
     # 動画ファイル保存用の設定
     fps = 9
-    #rgb_camera.set(cv2.CAP_PROP_FPS,fps)
-    #ther_camera.set(cv2.CAP_PROP_FPS,fps)
 
     rgb_w = int(rgb_camera.get(cv2.CAP_PROP_FRAME_WIDTH))              # カメラの横幅を取得
     ther_w = int(ther_camera.get(cv2.CAP_PROP_FRAME_WIDTH))              # カメラの横幅を取得
@@ -94,7 +88,7 @@ if __name__ == '__main__':
             strdate = datetime.datetime.now().strftime('%Y%m%dT%H%M')
             rgb_filename = output_dir + "rgb_video" + strdate + ".mp4"
             ther_filename = output_dir + "ther_video" + strdate + ".mp4"
-            rgb_video = cv2.VideoWriter(rgb_filename, fourcc, fps, (rgb_w, rgb_h))  
+            rgb_video = cv2.VideoWriter(rgb_filename, fourcc, fps, (rgb_w, rgb_h)) 
             ther_video = cv2.VideoWriter(ther_filename, fourcc, fps, (ther_w, ther_h))
             print(f'create new file {dt_end}')
 
