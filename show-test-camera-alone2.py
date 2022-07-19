@@ -1,5 +1,7 @@
 import cv2
 for id in range(0,10):
+    # Windowsの場合にはDirect Showが必要
+    # Linuxだと特に必要ない
     capid=cv2.VideoCapture(id, cv2.CAP_DSHOW)
     if capid.isOpened():
         print(capid.get(cv2.CAP_PROP_FRAME_HEIGHT))
@@ -17,7 +19,7 @@ for id in range(0,10):
         print(f'Video capture{id}:None')
     capid.release()
 
-print(f'therid:{ther_cid}')
+# print(f'therid:{ther_cid}')
 print(f'rgbid:{rgb_cid}')
 #カメラの設定　デバイスIDは0
 # cap1 = cv2.VideoCapture(ther_cid-1)
