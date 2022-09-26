@@ -1,32 +1,31 @@
-# minato_camera_in_bus
+# バスの中に設置したNUC
+NUC：
 
-## 当日
-powershell を使って起動
-python3.10のインストール(pwershellで`python3`と実行するとinstallの画面に変移する)
+## Ubuntu Version
+Ubuntu20.04
+## Python Version
+Python 
 
-```python3 -m venv .venv
-.venv/Scripts/activate.bat //起動
-Set-ExecutionPolicy RemoteSigned -Scope CurrentUser -Force //最初だけこのスクリプトが必要
-.venv\Scripts\activate.ps1 //起動
-python3 -m pip install opencv-python
-python3 -m pip install opencv-contrib-python
+## Quick Start
 ```
-もしくはrequirements.txtのインストール
+pip3 install -r requirements.txt
+```
+定期実行のプログラムはcrontabで設定．
+編集内容はcrontab-e.txtに記載．
 
-## スクリプトの自動起動に関して
-Windows標準のタスクスケジューラを利用（Winキー+S）
-基本タスクを作成する
-- 名前：適当だけどファイル名の方がいいかも
-- コンピュータの起動時に実行
-- プログラムの開始
-- pythonまでのパスはvenv環境のもの
-- 引数としてファイルのパスを指定
+/etc/systemd/system にファイルを追加
+```cp /home/inet-lab/hogehoge/cap_rgb_video.service /etc/systemd/system/
+cp /home/inet-lab/hogehoge/cap_ther_video.service /etc/systemd/system/
+sudo systemctl daemon-reload
+sudo systemctl status
+sudo systemctl enable
+sudo systemctl start
+```
 
-### ユーザがログオンしてないときにも実行
-タスクスケジューラからタスクをダブルクリック
-「ログオンしているかどうかに関わらず実行する」を選択する
-タスクが失敗したときの対応→1分ごとに10回試行
-
+## カメラの位置と撮影に関して
+カメラは前後に設置されている．
+そのため，RGBのカメラ撮影用とFIRカメラ撮影用のスクリプトを用意している．
+systemdではそれぞれのスクリプトを動作させる．
 
 
 

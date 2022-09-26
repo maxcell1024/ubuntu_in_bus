@@ -1,0 +1,15 @@
+[Unit]
+After=cap_video.service
+Description = capturing video daemon
+StartLimitIntervalSec=60
+StartLimitBurst=10
+
+[Service]
+User = inet-lab
+WorkingDirectory = /home/inet-lab/minato_camera_in_bus
+ExecStart = /home/inet-lab/minato_camera_in_bus/.venv/bin/python3 /home/inet-lab/minato_camera_in_bus/show-test-camera-alone3.py
+Restart = always
+Type = simple
+
+[Install]
+WantedBy = multi-user.target

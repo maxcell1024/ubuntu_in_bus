@@ -1,4 +1,5 @@
-import cv2
+import cv2, datetime
+from time import sleep
 from UsbVideoDevice import UsbVideoDevice
 
 '''
@@ -22,6 +23,7 @@ print(f'rgb_ids{rgb_ids}')
 print(f'ther_ids{ther_ids}')
 '''
 
+sleep(60)
 usbVideoDevice = UsbVideoDevice()
 devicelist = usbVideoDevice.getdevicelist()
 
@@ -40,10 +42,9 @@ front_ther_cam = cv2.VideoCapture(front_ther_id)
 rear_rgb_cam = cv2.VideoCapture(rear_rgb_id)
 rear_ther_cam = cv2.VideoCapture(rear_ther_id)
 
-assert front_rgb_cam.isOpened()
-assert front_ther_cam.isOpened()
-assert rear_rgb_cam.isOpened()
-assert rear_ther_cam.isOpened()
+# 1 minitesだけ処理を行う．
+looptime = 1
+dt_end = datetime.datetime.now() + datetime.timedelta(minutes=looptime)
 
 #繰り返しのためのwhile文
 while True:
@@ -52,11 +53,6 @@ while True:
     front_ther_ret, front_ther_frame = front_ther_cam.read()
     rear_rgb_ret, rear_rgb_frame = rear_rgb_cam.read()
     rear_ther_ret, rear_ther_frame = rear_ther_cam.read()
-
-    # print(f'front_rgb{front_rgb_frame}')
-    # print(f'front_ther{front_ther_frame}')
-    # print(f'rear_rgb{rear_rgb_frame}')
-    # print(f'rear_ther{rear_ther_frame}')
 
     #カメラの画像の出力
     cv2.imshow('front_rgb' , front_rgb_frame)
@@ -69,10 +65,13 @@ while True:
     if key == 27:
         break
 
+    # 1分後には強制終了させる
+    if dt_end < datetime.datetime.now():
+        break
+
 #メモリを解放して終了するためのコマンド
 front_rgb_cam.release()
 front_ther_cam.release()
 rear_rgb_cam.release()
 rear_ther_cam.release()
-# cap2.release()
 cv2.destroyAllWindows()
